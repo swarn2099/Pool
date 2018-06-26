@@ -10,10 +10,11 @@
   <script src="../js/medium-editor.js"></script>
   <link rel="stylesheet" href="../css/medium-editor.css">
   <link rel="stylesheet" href="../css/default.css">
-  <link rel="stylesheet" href="../css/styleCard.css">
   <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css"> -->
   <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
   <script src="https://www.gstatic.com/firebasejs/4.13.0/firebase.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/5.0.4/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/5.0.4/firebase-auth.js"></script>
   <script src="https://www.gstatic.com/firebasejs/4.13.0/firebase-firestore.js"></script>
   <script>
     // Initialize Firebase
@@ -29,6 +30,7 @@
     firestore.settings(settings);
     // Initialize Cloud Firestore through Firebase
     var db = firebase.firestore();
+    var user = firebase.auth().currentUser;
   </script>
   <!--Let browser know website is optimized for mobile-->
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -39,18 +41,38 @@
 </head>
 <script>
   function queryResults() {
-    db.collection("events").get().then(function(querySnapshot) {
-      querySnapshot.forEach(function(doc) {
-        // doc.data() is never undefined for query doc snapshots
-        console.log(doc.id, " => ", doc.data());
-        //IMAGE
-        var imagePreview = '<div class="col s4"><div class="container"><div class="cellphone-container"><div class="movie"><img  class="movie-img" src="' + doc.data().imageURL +
-          '"></img><div class="text-movie-cont"><div class="mr-grid"><div class="col1"><h1>' + doc.data().name +
-          '</h1></div></div><div class="mr-grid"><div class="col1"><textarea rows="10" cols="50" class="white-text materialize-textarea">' + doc.data().description +
-          '</textarea></div></div><a class="waves-effect waves-light btn">Resubmit</a></div></div></div></div></div>';
-        var imageValuePreview = document.getElementById("imgValuePreview");
-        imageValuePreview.innerHTML += imagePreview;
-      });
+    console.log("The fucntion ran");
+    firebase.auth().onAuthStateChanged(function(user) {
+      if (user) {
+        var displayName = user.displayName;
+        console.log(displayName);
+        var welcome = document.getElementById("welcomeMessage");
+        welcome.innerHTML = "Welcome " + displayName + "    ";
+        // User is signed in.
+        db.collection("events").where("author", "==", user.uid).get().then(function(querySnapshot) {
+          querySnapshot.forEach(function(doc) {
+            // doc.data() is never undefined for query doc snapshots
+            console.log(doc.id, " => ", doc.data());
+            var option = '<a href="#!" class="collection-item" id="' + doc.id + '">' + doc.data().name + '</a>';
+            console.log(option);
+            var optionPreview = document.getElementById("optionArea");
+            optionPreview.innerHTML += option;
+          });
+        });
+      } else {
+        // No user is signed in.
+      }
+    });
+
+  };
+
+  function signOut() {
+    firebase.auth().signOut().then(function() {
+      console.log('Signed Out');
+      window.location.href = "signin.html";
+
+    }, function(error) {
+      console.error('Sign Out Error', error);
     });
   }
 </script>
@@ -60,22 +82,33 @@
   <li><a href="add.html"><i class="material-icons small">add</i></a></li>
   <li><a href="manage.html"><i class="material-icons small">edit</i></a></li>
   <li><a href="#!"><i class="material-icons small">notifications_active</i></a></li>
-  <li><a href="#!"><i class="material-icons small">account_circle</i></a></li>
+  <li><a href="#!" onclick="signOut()"><i class="material-icons small">hotel</i></a></li>
 </ul>
 <nav>
   <div class="nav-wrapper white black-text">
-    <a href="#" class="brand-logo center"><span class="teal-text text-lighten-2"><b>marco</b></span><span class="blue-text heavy">polo </span><span class="thin black-text">Pool</span></a>
+    <a href="../index.html" class="brand-logo center"><span class="teal-text text-lighten-2"><b>marco</b></span><span class="blue-text heavy">polo </span><span class="thin black-text"></span></a>
+    <a href="#" data-target="slide-out" class="sidenav-trigger"><i class="material-icons black-text">menu</i></a>
     <ul class="right hide-on-med-and-down black-text">
-      <li><a class="dropdown-trigger black-text" href="#!" data-target="dropdown1">Welcome Swarn<i class="material-icons right">arrow_drop_down</i></a></li>
+      <li>
+        <a class="dropdown-trigger black-text" href="#!" data-target="dropdown1" id="welcomeMessage">
+          <div></div><i class="material-icons right">arrow_drop_down</i></a>
+      </li>
+      <ul id='dropdown1' class='dropdown-content'>
+        <li><a href="#!">Account Help</a></li>
+        <li><a href="#!" onclick="signOut()">Sign Out</a></li>
+      </ul>
     </ul>
   </div>
-  <div class="tabs"></div>
 </nav>
 
+
 <body onload="queryResults()">
-  <div class="centeredLeft">
+  <div class="centeredLeft container center">
     <div class="row">
       <div id="imgValuePreview"></div>
+    </div>
+    <div class="collection" id="optionArea">
+
     </div>
   </div>
 

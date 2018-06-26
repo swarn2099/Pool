@@ -1,4 +1,5 @@
 var lon, latPoint;
+
 $('#us2').locationpicker({
   location: {
     latitude: 0,
@@ -33,7 +34,7 @@ function initMap() {
 function getPreviewEvent() {
   //IMAGE
   var image = document.getElementById("imageLink");
-  var imagePreview = '<img src="' + image.value + '" id="imgCard" class="center">';
+  var imagePreview = '<img class="activator" src="'+image.value +'"">';
   var imageValuePreview = document.getElementById("imgValuePreview");
   imageValuePreview.innerHTML = imagePreview;
 
@@ -43,17 +44,17 @@ function getPreviewEvent() {
   var categoryPreview = document.getElementById("categoryPreview");
   categoryPreview.innerHTML = categorySelected;
 
+  //LOCATION
+  var location = document.getElementById("us2-address");
+  var locationSelected = '<h6>'+ location.value +'</h6>';
+  var locationPreview = document.getElementById("locationPreview");
+  locationPreview.innerHTML = locationSelected;
+
   //EVENT NAME
   var eventName = document.getElementById("eventname");
-  var eventPreview = '<h4><b>' + eventName.value + '</b></h4>';
+  var eventPreview ='<span class="card-title grey-text text-darken-4 activator">'+eventName.value+'<i class="material-icons right">more_vert</i></span>';
   var eventNamePreview = document.getElementById("eventNamePreview");
   eventNamePreview.innerHTML = eventPreview;
-
-  //DATE
-  var date = document.getElementById("date");
-  var datePreview = '<h5>' + date.value + '</h5>';
-  var dateValuePreview = document.getElementById("dateValuePreview");
-  dateValuePreview.innerHTML = datePreview;
 
   //TIME
   var startTime = document.getElementById("starttime");
@@ -64,7 +65,7 @@ function getPreviewEvent() {
 
   //Description
   var description = document.getElementById("description");
-  var descriptionPreview = description.value;
+  var descriptionPreview = '<textarea class="materialize-textarea">'+description.value+'</textarea>';
   var descriptionValuePreview = document.getElementById("descriptionValuePreview");
   descriptionValuePreview.innerHTML = descriptionPreview;
 
@@ -86,7 +87,7 @@ function getFormEvent() {
   var tag = document.getElementById("tag");
   var category = document.getElementById("category");
   var categorySelected = category.options[category.selectedIndex].value;
-  var checkbox = document.getElementById("featured").checked;
+  console.log(categorySelected);
   var strDescription = document.getElementById("description");
   var link = document.getElementById("info");
   var imgsrc = document.getElementById("imageLink");
@@ -98,25 +99,59 @@ function getFormEvent() {
     latPoint,
     lon
   };
-
   // Add a second document with a generated ID.
-  db.collection("events").add({
-      name: eventName.value,
-      // category: categorySelected.value,
-      featured: checkbox,
-      description: strDescription.value,
-      imageURL: imgsrc.value,
-      startTime: startTime.value,
-      endTime: endTime.value,
-      location: location.value,
-      date: date.value,
-      geoPosition: coords
+  firebase.auth().onAuthStateChanged(function(user) {
+    if (user) {
+      db.collection("events").doc(eventName.value).set({
+          name: eventName.value,
+          category: categorySelected,
+          description: strDescription.value,
+          imageURL: imgsrc.value,
+          startTime: startTime.value,
+          endTime: endTime.value,
+          location: location.value,
+          date: date.value,
+          geoPosition: coords,
+          author: user.uid
 
-    })
-    .then(function(docRef) {
-      console.log("Document written with ID: ", docRef.id);
-    })
-    .catch(function(error) {
-      console.error("Error adding document: ", error);
+        })
+        .then(function(docRef) {
+          console.log("Document written with ID: ", docRef.id);
+          Materialize.toast('Event Added', 4000, 'rounded teal')
+
+
+        })
+        .catch(function(error) {
+          console.error("Error adding document: ", error);
+          Materialize.toast('Event Added', 4000, 'rounded teal')
+        });
+       // ...
+    } else {
+      // User is signed out.
+      // ...
+    }
     });
+  // db.collection("events").doc(eventName.value).set({
+  //     name: eventName.value,
+  //     // category: categorySelected.value,
+  //     featured: checkbox,
+  //     description: strDescription.value,
+  //     imageURL: imgsrc.value,
+  //     startTime: startTime.value,
+  //     endTime: endTime.value,
+  //     location: location.value,
+  //     date: date.value,
+  //     geoPosition: coords,
+  //     author: author.value
+  //
+  //   })
+  //   .then(function(docRef) {
+  //     console.log("Document written with ID: ", docRef.id);
+  //     Materialize.toast('Event Added', 4000, 'rounded teal')
+  //
+  //
+  //   })
+  //   .catch(function(error) {
+  //     console.error("Error adding document: ", error);
+  //   });
 }

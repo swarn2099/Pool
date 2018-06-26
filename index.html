@@ -1,63 +1,84 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <!--Import Google Icon Font-->
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
-    <!--Import materialize.css-->
-    <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
-    <link type="text/css" rel="stylesheet" href="css/style.css"  media="screen,projection"/>
 
+<head>
+  <!--Import Google Icon Font-->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
+  <!--Import materialize.css-->
+  <link type="text/css" rel="stylesheet" href="css/materialize.min.css" media="screen,projection" />
+  <link type="text/css" rel="stylesheet" href="css/style.css" media="screen,projection" />
+  <!--Let browser know website is optimized for mobile-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+  <script type="text/javascript" src="js/init.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/5.0.4/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/5.0.4/firebase-auth.js"></script>
+  <script>
+    // Initialize Firebase
+    var config = {
+      apiKey: "AIzaSyCvM4gKXyUW58BrDOnqU3bJBGnCNiexCzI",
+      authDomain: "marco-polo-c90db.firebaseapp.com",
+      databaseURL: "https://marco-polo-c90db.firebaseio.com",
+      projectId: "marco-polo-c90db",
+      storageBucket: "marco-polo-c90db.appspot.com",
+      messagingSenderId: "399167559169"
+    };
+    firebase.initializeApp(config);
+  </script>
+</head>
 
-    <!--Let browser know website is optimized for mobile-->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
-    <script type="text/javascript" src="js/init.js"></script>
-  </head>
+<ul id="slide-out" class="sidenav sidenav-fixed center"><br>
+  <li><a href="index.html"><i class="material-icons small">home</i></a></li>
+  <li><a href="www/add.html"><i class="material-icons small">add</i></a></li>
+  <li><a href="www/manage.html"><i class="material-icons small">edit</i></a></li>
+  <li><a href="#!"><i class="material-icons small">notifications_active</i></a></li>
+  <li><a href="#!" onclick="signOut()"><i class="material-icons small">hotel</i></a></li>
+</ul>
 
-  <ul id="slide-out" class="sidenav sidenav-fixed center"><br>
-      <li><a href="index.html"><i class="material-icons small">home</i></a></li>
-      <li><a href="www/add.html"><i class="material-icons small">add</i></a></li>
-      <li><a href="#!"><i class="material-icons small">edit</i></a></li>
-      <li><a href="#!"><i class="material-icons small">notifications_active</i></a></li>
-      <li><a href="#!"><i class="material-icons small">account_circle</i></a></li>
-  </ul>
-  <nav>
-    <div class="nav-wrapper white black-text">
-      <a href="#" class="brand-logo center"><span class="teal-text text-lighten-2"><b>marco</b></span><span class="blue-text heavy">polo </span><span class="thin black-text">Pool</span></a>
-      <ul class="right hide-on-med-and-down black-text">
-        <!-- Dropdown Trigger -->
-        <li><a class="dropdown-trigger black-text" href="#!" data-target="dropdown1">Welcome Swarn<i class="material-icons right">arrow_drop_down</i></a></li>
+<nav>
+  <div class="nav-wrapper white black-text">
+    <a href="../index.html" class="brand-logo center"><span class="teal-text text-lighten-2"><b>marco</b></span><span class="blue-text heavy">polo </span><span class="thin black-text"></span></a>
+    <a href="#" data-target="slide-out" class="sidenav-trigger"><i class="material-icons black-text">menu</i></a>
+    <ul class="right hide-on-med-and-down black-text">
+      <li>
+        <a class="dropdown-trigger black-text" href="#!" data-target="dropdown1" id="welcomeMessage">
+          <div></div><i class="material-icons right">arrow_drop_down</i></a>
+      </li>
+      <ul id='dropdown1' class='dropdown-content'>
+        <li><a href="#!">Account Help</a></li>
+        <li><a href="#!" onclick="signOut()">Sign Out</a></li>
       </ul>
-    </div>
-  </nav>
+    </ul>
+  </div>
+</nav>
 
-  <body>
-    <div class="tabs"></div>
-
-    <div class="section container">
+<body>
+  <div class="section container">
     <div class="row">
-      <div class="col s6">
+      <div class="col s12 m6">
         <a href="www/add.html">
           <div class="card waves-effect waves-light" id="rcorners2">
-          <div class="card-image">
-            <img src="img/event.jpg">
-            <span class="card-title">Add Event</span>
+            <div class="card-image">
+              <img src="img/event.jpg">
+              <span class="card-title">Add Event</span>
+            </div>
           </div>
-        </div></a>
+        </a>
       </div>
-      <div class="col s6">
+      <div class="col s12 m6">
         <a href="www/manage.html">
-        <div class="card waves-effect waves-light" id="rcorners2">
-          <div class="card-image">
-            <img src="img/manage.jpeg">
-            <span class="card-title">Manage Events</span>
+          <div class="card waves-effect waves-light" id="rcorners2">
+            <div class="card-image">
+              <img src="img/manage.jpeg">
+              <span class="card-title">Manage Events</span>
+            </div>
           </div>
-        </div>
-      </div></a>
+      </div>
+      </a>
     </div>
     <div class="row">
-      <div class="col s6">
+      <div class="col s12 m6">
         <div class="card waves-effect waves-light" id="rcorners2">
           <div class="card-image">
             <img src="img/upcoming.jpeg">
@@ -65,7 +86,7 @@
           </div>
         </div>
       </div>
-      <div class="col s6">
+      <div class="col s12 m6">
         <div class="card waves-effect waves-light" id="rcorners2">
           <div class="card-image">
             <img src="img/contact.jpeg">
@@ -77,7 +98,34 @@
   </div>
   <div class="centered">
   </div>
-    <!--JavaScript at end of body for optimized loading-->
-    <script type="text/javascript" src="js/materialize.min.js"></script>
-  </body>
+  <script>
+  firebase.auth().onAuthStateChanged(function(user) {
+    if (user) {
+      // User is signed in.
+      var displayName = user.displayName;
+      var school = user.school;
+      console.log(displayName);
+      console.log(school);
+      var welcome = document.getElementById("welcomeMessage");
+      welcome.innerHTML = "Welcome " + displayName + " ";
+       // ...
+    } else {
+      // User is signed out.
+      // ...
+    }
+    });
+    function signOut() {
+      firebase.auth().signOut().then(function() {
+        console.log('Signed Out');
+        window.location.href="www/signin.html";
+
+      }, function(error) {
+        console.error('Sign Out Error', error);
+      });
+    }
+  </script>
+  <!--JavaScript at end of body for optimized loading-->
+  <script type="text/javascript" src="js/materialize.min.js"></script>
+</body>
+
 </html>

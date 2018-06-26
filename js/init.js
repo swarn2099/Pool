@@ -1,8 +1,11 @@
 (function($) {
   $(function() {
+    $('.sidenav').sidenav();
+    $('.tabs').tabs();  $('.dropdown-trigger').dropdown();
+
+
     $('.datepicker').datepicker();
 
-    $('.modal').modal();
     $('select').formSelect();
     $('.tap-target').tapTarget();
     $('.dropdown-trigger').dropdown();

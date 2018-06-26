@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+
+
+<head>
+  <!--Import Google Icon Font-->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
+  <!--Import materialize.css-->
+  <link type="text/css" rel="stylesheet" href="../css/materialize.min.css" media="screen,projection" />
+  <link type="text/css" rel="stylesheet" href="../css/login.css" media="screen,projection" />
+  <!--Let browser know website is optimized for mobile-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <script type="text/javascript" src="../js/jquery-3.3.1.min.js"></script>
+  <script type="text/javascript" src="../js/init.js"></script>
+  <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
+
+  <script src="https://www.gstatic.com/firebasejs/5.0.4/firebase-app.js"></script>
+
+  <!-- Add additional services you want to use -->
+  <script src="https://www.gstatic.com/firebasejs/5.0.4/firebase-auth.js"></script>
+  <script>
+    // Initialize Firebase
+    var config = {
+      apiKey: "AIzaSyCvM4gKXyUW58BrDOnqU3bJBGnCNiexCzI",
+      authDomain: "marco-polo-c90db.firebaseapp.com",
+      databaseURL: "https://marco-polo-c90db.firebaseio.com",
+      projectId: "marco-polo-c90db",
+      storageBucket: "marco-polo-c90db.appspot.com",
+      messagingSenderId: "399167559169"
+    };
+    firebase.initializeApp(config);
+  </script>
+</head>
+<nav>
+  <div class="nav-wrapper white black-text">
+    <a href="#" class="brand-logo center"><span class="teal-text text-lighten-2"><b>marco</b></span><span class="blue-text heavy">polo </span><span class="thin black-text"></span></a>
+  </div>
+</nav>
+<body>
+<div class="valign-wrapper" style="width:100%;height:100%;position: absolute;">
+  <div class="valign" style="width:100%;">
+    <div class="container">
+      <div class="row">
+        <div class="col s12 m6 offset-m3">
+          <div class="card" id="rcorners1">
+            <div class="card-content">
+              <h5 class="center">Login to Pool</h5>
+              <form>
+                <div class="row">
+                  <div class="input-field col s12">
+                    <input id="email" type="email" class="validate">
+                    <label for="email">Email</label>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="input-field col s12">
+                    <input id="password" type="password" class="validate">
+                    <label for="password">Password</label>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div class="row center">
+              <div class="input-field col s12">
+                <a class="waves-effect waves-light btn" onclick="login()">Login</a>
+              </div>
+            </div>
+            <div class="row center">
+              <div class="input-field col s12">
+                Don't have an account?<a href="create.html"> &nbspCreate one here</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+
+  <!-- <div class="section container centeredSignIn">
+    <div id="rcorners1" class="">
+      <h5 class="center">Login to Pool</h5>
+        <form class="col s12">
+            <div class="row">
+              <div class="input-field col s12">
+                <input id="email" type="email" class="validate">
+                <label for="email">Email</label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="input-field col s12">
+                <input id="password" type="password" class="validate">
+                <label for="password">Password</label>
+              </div>
+            </div>
+            <div class="row center">
+              <div class="input-field col s12">
+                <a class="waves-effect waves-light btn" onclick="login()">Login</a>
+              </div>
+            </div>
+            <div class="row center">
+              <div class="input-field col s12">
+                Don't have an account?<a href="create.html"> &nbspCreate one here</a>
+              </div>
+            </div>
+        </form>
+      </div>
+    </div> -->
+  <script>
+    firebase.auth().onAuthStateChanged(function(user) {
+      if (user) {
+        // User is signed in.
+        window.open("../index.html", "_self");
+        var displayName = user.displayName;
+        var email = user.email;
+        console.log(email);
+        console.log(displayName);
+        // ...
+      }
+    });
+    function login() {
+      var email = document.getElementById("email").value;
+      var password = document.getElementById('password').value;
+      firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
+        // Handle Errors here.
+        var errorCode = error.code;
+        var errorMessage = error.message
+        M.toast({
+          html: 'Incorrect Email or Password',
+          classes: 'rounded red white-text'
+        });
+      });
+    };
+  </script>
+  <script type="text/javascript" src="../js/materialize.min.js"></script>
+
+</html>
