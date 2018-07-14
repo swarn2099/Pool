@@ -18,54 +18,45 @@ $('#us2').locationpicker({
   }
 
 });
-
-function initMap() {
-  var uluru = {
-    lat: latPoint,
-    lng: lon
-  };
-  var map = new google.maps.Map(
-    document.getElementById('map'), {
-      center: uluru,
-      disableDefaultUI: true
-    });
-}
-
 function getPreviewEvent() {
   //IMAGE
   var image = document.getElementById("imageLink");
-  var imagePreview = '<img class="activator" src="'+image.value +'"">';
+  var imagePreview = '<img class="reduceheight" src="'+image.value+'">';
   var imageValuePreview = document.getElementById("imgValuePreview");
   imageValuePreview.innerHTML = imagePreview;
-
-  //CATEGORY
-  var category = document.getElementById("category");
-  var categorySelected = category.options[category.selectedIndex].value;
-  var categoryPreview = document.getElementById("categoryPreview");
-  categoryPreview.innerHTML = categorySelected;
+  //
+  // //CATEGORY
+  // var category = document.getElementById("category");
+  // var categorySelected = category.options[category.selectedIndex].value;
+  // var categoryPreview = document.getElementById("categoryPreview");
+  // categoryPreview.innerHTML = categorySelected;
 
   //LOCATION
   var location = document.getElementById("us2-address");
-  var locationSelected = '<h6>'+ location.value +'</h6>';
+  var locationSelected = '<h6>' + location.value + '</h6>';
   var locationPreview = document.getElementById("locationPreview");
   locationPreview.innerHTML = locationSelected;
 
   //EVENT NAME
   var eventName = document.getElementById("eventname");
-  var eventPreview ='<span class="card-title grey-text text-darken-4 activator">'+eventName.value+'<i class="material-icons right">more_vert</i></span>';
+  var eventPreview = '<span class="card-title">'+eventName.value+'</span>';
   var eventNamePreview = document.getElementById("eventNamePreview");
   eventNamePreview.innerHTML = eventPreview;
 
   //TIME
   var startTime = document.getElementById("starttime");
   var endTime = document.getElementById("endtime");
-  var timePreview = '<h6>' + startTime.value + ' - ' + endTime.value + '</h6><h6>' + date.value + '</h6>';
-  var timeValuePreview = document.getElementById("timeValuePreview");
-  timeValuePreview.innerHTML = timePreview;
+  var date = document.getElementById("date");
+  var starttimeValuePreview = document.getElementById("starttimePreview");
+  var endtimeValuePreview = document.getElementById("endtimePreview");
+  var dateValuePreview = document.getElementById("datePreview");
+  starttimeValuePreview.value = startTime.value;
+  endtimeValuePreview.value = endTime.value;
+  dateValuePreview.value = date.value;
 
   //Description
   var description = document.getElementById("description");
-  var descriptionPreview = '<textarea class="materialize-textarea">'+description.value+'</textarea>';
+  var descriptionPreview = description.value;
   var descriptionValuePreview = document.getElementById("descriptionValuePreview");
   descriptionValuePreview.innerHTML = descriptionPreview;
 
@@ -102,9 +93,10 @@ function getFormEvent() {
   // Add a second document with a generated ID.
   firebase.auth().onAuthStateChanged(function(user) {
     if (user) {
-      db.collection("events").doc(eventName.value).set({
+      db.collection("potentialEvents").doc(eventName.value).set({
           name: eventName.value,
           category: categorySelected,
+          city: user.photoURL,
           description: strDescription.value,
           imageURL: imgsrc.value,
           startTime: startTime.value,
@@ -112,25 +104,60 @@ function getFormEvent() {
           location: location.value,
           date: date.value,
           geoPosition: coords,
-          author: user.uid
+          author: user.uid,
+          id: eventName.value
 
         })
         .then(function(docRef) {
-          console.log("Document written with ID: ", docRef.id);
-          Materialize.toast('Event Added', 4000, 'rounded teal')
-
-
+          console.log("Document written");
+          M.toast({
+            html: 'Event Added',
+            classes: ' green white-text'
+          });
         })
         .catch(function(error) {
           console.error("Error adding document: ", error);
-          Materialize.toast('Event Added', 4000, 'rounded teal')
+          M.toast({
+            html: 'Event Added',
+            classes: ' red white-text'
+          });
         });
-       // ...
+
+        db.collection("potentialEventsTraveler").doc(eventName.value).set({
+            name: eventName.value,
+            category: categorySelected,
+            city: user.photoURL,
+            description: strDescription.value,
+            imageURL: imgsrc.value,
+            startTime: startTime.value,
+            endTime: endTime.value,
+            location: location.value,
+            date: date.value,
+            geoPosition: coords,
+            author: user.uid,
+            id: eventName.value
+
+          })
+          .then(function(docRef) {
+            console.log("Document written");
+            M.toast({
+              html: 'Event Added',
+              classes: ' green white-text'
+            });
+          })
+          .catch(function(error) {
+            console.error("Error adding document: ", error);
+            M.toast({
+              html: 'Event Added',
+              classes: ' red white-text'
+            });
+          });
+      // ...
     } else {
       // User is signed out.
       // ...
     }
-    });
+  });
   // db.collection("events").doc(eventName.value).set({
   //     name: eventName.value,
   //     // category: categorySelected.value,

@@ -5698,7 +5698,7 @@ MediumEditor.extensions = {};
         /* text: [string]
          * Text to display in the placeholder
          */
-        text: 'Write your story here',
+        text: 'Description of your Event',
 
         /* hideOnClick: [boolean]
          * Should we hide the placeholder on click (true) or when user starts typing (false)
