@@ -10,6 +10,8 @@
   <!--Import materialize.css-->
   <link type="text/css" rel="stylesheet" href="../css/materialize.min.css" media="screen,projection" />
   <link type="text/css" rel="stylesheet" href="../css/style.css" media="screen,projection" />
+  <link rel="stylesheet" href="../css/demo.css">
+  <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.css">
   <script src="../js/medium-editor.js"></script>
   <link rel="stylesheet" href="../css/medium-editor.css">
   <link rel="stylesheet" href="../css/default.css">
@@ -42,10 +44,12 @@
   <script src="../js/locationpicker.js"></script>
 </head>
 <ul id="slide-out" class="sidenav sidenav-fixed center"><br>
-  <li><a href="home.html"><i class="material-icons small">home</i></a></li>
-  <li><a href="add.html"><i class="material-icons small">add</i></a></li>
-  <li><a href="manage.html"><i class="material-icons small">edit</i></a></li>
-  <li><a href="#!" onclick="signOut()"><i class="material-icons small">hotel</i></a></li>
+  <li><a href="home.html" class="tooltipped" data-position="right" data-tooltip="Go Home"><i class="material-icons small">home</i></a></li>
+  <li><a href="add.html" class="tooltipped" data-position="right" data-tooltip="Add an Event"><i class="material-icons small">add</i></a></li>
+  <li><a href="story.html" class="tooltipped" data-color="color" data-position="right" data-tooltip="Write a Story"><i class="material-icons small">book</i></a></li>
+  <li><a href="manage.html" class="tooltipped" data-position="right" data-tooltip="Manage your Events"><i class="material-icons small">edit</i></a></li>
+  <li><a href="#" class="tooltipped" data-position="right" data-tooltip="Contact Traveler"><i class="material-icons small">contact_mail</i></a></li>
+  <li><a href="#!" onclick="signOut()" class="tooltipped" data-position="right" data-tooltip="Sign out of Pool"><i class="material-icons small">hotel</i></a></li>
 </ul>
 <nav>
 
@@ -58,7 +62,6 @@
           <div></div><i class="material-icons right">arrow_drop_down</i></a>
       </li>
       <ul id='dropdown1' class='dropdown-content'>
-        <li><a href="#!">Account Help</a></li>
         <li><a href="#!" onclick="signOut()">Sign Out</a></li>
       </ul>
     </ul>
@@ -67,7 +70,7 @@
 
 <div class="row">
   <ul class="tabs color-page3">
-    <li class="tab col s6"><a href="#test1"><span class="white-text">SandBox</span></a></li>
+    <li class="tab col s6 "><a href="#test1"><span class="white-text">SandBox</span></a></li>
     <li class="tab col s6"><a href="#test2" onclick="getPreviewEvent()"><span class="white-text">Submit</span></a></li>
   </ul>
 </div>
@@ -78,7 +81,7 @@
     <div class="container">
       <div class="row">
         <div class="col s12 m6">
-          <div class="card white" id="rcorners2">
+          <div class="card white" id="rcorners1">
             <div class="card-content black-text">
               <span class="card-title center-align"><b>Event Info</b></span>
               <div class="row center-align">
@@ -140,18 +143,45 @@
         </div>
       </div>
       <div class="row">
-        <div class="col s12 m12">
+        <div class="col s12 m6">
+          <div class="card white" id="rcorners2">
+            <div class="card-content black-text">
+              <div class="row center-align">
+                <span class="card-title center-align"><b>Description</b></span><br>
+                <div class="row">
+                  <div class="col s12 m12">
+                    <textarea class="materialize-textarea editable">
+                      
+                    </textarea>
+                    <pre class="markdown" id="story" hidden></pre>
+                    <script>
+                      (function() {
+                        var markDownEl = document.querySelector(".markdown");
+                        new MediumEditor(document.querySelector(".editable"), {
+                          extensions: {
+                            markdown: new MeMarkdown(function(md) {
+                              markDownEl.textContent = md;
+                            })
+                          }
+                        });
+                      })();
+                      var editor = new MediumEditor('.editable', {
+                          buttonLabels: 'fontawesome'
+                        }),
+                        cssLink = document.getElementById('medium-editor-theme');
+                    </script>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col s12 m6">
           <div class="card white" id="">
             <div class="card-content black-text">
               <div class="row center-align">
-                <span class="card-title center-align"><b>Additional Info</b></span><br>
+                <span class="card-title center-align"><b>Last Step</b></span><br>
                 <div class="row">
-                  <div class="col s12 m12">
-                    Description
-                    <hr/>
-                    <div class="editor"></div>
-                    <textarea hidden class="markdown" id="description" rows="40"></textarea>
-                  </div><br><br><br>
                   <div class="input-field col s12">
                     <input id="imageLink" type="text">
                     <label for="imageLink" class="theme">Image Link</label>
@@ -161,6 +191,7 @@
                     <label for="info" class="theme">Additional Link</label>
                   </div>
                 </div>
+                <span class="green-text">Click Submit to Review</span>
               </div>
             </div>
           </div>
@@ -179,7 +210,7 @@
             <div id="eventNamePreview">
               <!--Event Name goes here-->
             </div>
-            <a class="btn-floating halfway-fab waves-effect waves-light green" onclick="getFormEvent()"><i class="material-icons">send</i></a>
+            <a class="btn-large btn-floating halfway-fab waves-effect waves-light green" onclick="getFormEvent()"><i class="material-icons">send</i></a>
           </div>
           <div class="card-content">
             <div class="card-tabs">
@@ -260,17 +291,13 @@
         var welcome = document.getElementById("welcomeMessage");
         var welcomeMessage = '<span class="white-text">Welcome ' + displayName + '</span><i class="material-icons right white-text">arrow_drop_down</i></a>';
         welcome.innerHTML = welcomeMessage;
-
-      } else {
-        // User is signed out.
-        // ...
       }
     });
 
     function signOut() {
       firebase.auth().signOut().then(function() {
         console.log('Signed Out');
-        window.location.href = "signin.html";
+        window.location.href = "../index.html";
 
       }, function(error) {
         window.location.href = "../index.html";

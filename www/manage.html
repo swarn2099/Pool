@@ -50,10 +50,12 @@
 </head>
 
 <ul id="slide-out" class="sidenav sidenav-fixed center"><br>
-  <li><a href="home.html"><i class="material-icons small center">home</i></a></li>
-  <li><a href="add.html"><i class="material-icons small">add</i></a></li>
-  <li><a href="manage.html"><i class="material-icons small">edit</i></a></li>
-  <li><a href="#!" onclick="signOut()"><i class="material-icons small">hotel</i></a></li>
+  <li><a href="home.html" class="tooltipped" data-position="right" data-tooltip="Go Home"><i class="material-icons small">home</i></a></li>
+  <li><a href="add.html" class="tooltipped" data-position="right" data-tooltip="Add an Event"><i class="material-icons small">add</i></a></li>
+  <li><a href="story.html" class="tooltipped" data-color="color" data-position="right" data-tooltip="Write a Story"><i class="material-icons small">book</i></a></li>
+  <li><a href="manage.html" class="tooltipped" data-position="right" data-tooltip="Manage your Events"><i class="material-icons small">edit</i></a></li>
+  <li><a href="#" class="tooltipped" data-position="right" data-tooltip="Contact Traveler"><i class="material-icons small">contact_mail</i></a></li>
+  <li><a href="#!" onclick="signOut()" class="tooltipped" data-position="right" data-tooltip="Sign out of Pool"><i class="material-icons small">hotel</i></a></li>
 </ul>
 <nav>
   <div class="nav-wrapper color-page3 white-text">
@@ -65,7 +67,6 @@
           <div></div><i class="material-icons right">arrow_drop_down</i></a>
       </li>
       <ul id='dropdown1' class='dropdown-content'>
-        <li><a href="#!">Account Help</a></li>
         <li><a href="#!" onclick="signOut()">Sign Out</a></li>
       </ul>
     </ul>
@@ -193,7 +194,30 @@
       </div>
 
     </div>
+    <script>
+      firebase.auth().onAuthStateChanged(function(user) {
+        if (user) {
+          // User is signed in.
+          var displayName = user.displayName;
+          var uid = user.uid;
+          console.log(displayName);
+          console.log(uid);
+          var welcome = document.getElementById("welcomeMessage");
+          var welcomeMessage = '<span class="white-text">Welcome ' + displayName + '</span><i class="material-icons right white-text">arrow_drop_down</i></a>';
+          welcome.innerHTML = welcomeMessage;
+        }
+      });
 
+      function signOut() {
+        firebase.auth().signOut().then(function() {
+          console.log('Signed Out');
+          window.location.href = "../index.html";
+
+        }, function(error) {
+          window.location.href = "../index.html";
+        });
+      }
+    </script>
     <script type="text/javascript" src="../js/materialize.min.js"></script>
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCf69RlrrN0ChatQlN28uGPRFyUP1MrV88&libraries=places"></script>
     <script src="../js/autocomplete.js"></script>

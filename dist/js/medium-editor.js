@@ -5698,7 +5698,7 @@ MediumEditor.extensions = {};
         /* text: [string]
          * Text to display in the placeholder
          */
-        text: 'Description of your Event',
+        text: 'Type your text',
 
         /* hideOnClick: [boolean]
          * Should we hide the placeholder on click (true) or when user starts typing (false)
@@ -5828,7 +5828,7 @@ MediumEditor.extensions = {};
          * When the __static__ option is true, this aligns the static toolbar
          * relative to the medium-editor element.
          */
-        align: 'left',
+        align: 'center',
 
         /* allowMultiParagraphSelection: [boolean]
          * enables/disables whether the toolbar should be displayed when

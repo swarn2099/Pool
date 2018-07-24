@@ -40,9 +40,31 @@ body {
 select{
   border-color: none;
 }
-
-#rcorners2{
+#submit{
+  margin-left: 70%;
+  margin-top: 5%;
+  border-radius: 20px;
+  background: linear-gradient(50deg, HSLA(205, 62%, 44%, 1), #F62D51);
+  animation: pastelRainbow 20s ease infinite;
+  background-size: 400% 400%;
+}
+#submitMobile{
+  margin-left: 30%;
+  margin-top: 5%;
+  border-radius: 20px;
+  /* font-size: 10px; */
+  background: linear-gradient(50deg, HSLA(205, 62%, 44%, 1), #F62D51);
+  animation: pastelRainbow 20s ease infinite;
+  background-size: 400% 400%;
+}
+#rcorners1{
   height: 350px;
+}
+#rcorners2{
+  min-height: 340px;
+}
+#rcorners3{
+margin-top: 5%;
 }
 .reduceheight {
   max-height: 500px;

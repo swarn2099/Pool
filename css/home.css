@@ -42,24 +42,3 @@ body {
     background-position: 0% 50%;
   }
 }
-
-.tabs {
-  margin-right: 100px;
-  overflow-x: hidden;
-  color: blue;
-}
-
-.card {
-  padding: none;
-  margin: none;
-}
-
-.card-content {
-  padding: none;
-  margin: none;
-}
-
-.card-image {
-  padding: none;
-  border-radius: 20px;
-}
