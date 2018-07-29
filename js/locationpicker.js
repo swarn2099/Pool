@@ -146,7 +146,7 @@ function getFormEvent() {
             name: eventName.value,
             category: categorySelected,
             city: user.photoURL,
-            description: strDescription.value,
+            description: queryDescription,
             imageURL: imgsrc.value,
             startTime: startTime.value,
             endTime: endTime.value,
