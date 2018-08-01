@@ -29,7 +29,7 @@
 body {
   min-height: 700px;
   font-family: 'Montserrat';
-  background: linear-gradient(80deg, #051937, #004d7a, #008793, #a8eb12);
+  background: linear-gradient(80deg, #051937, #004d7a, #008793);
   width: 100%;
   overflow-x: hidden;
   height: calc(100% + 130px);

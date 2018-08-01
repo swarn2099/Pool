@@ -17,6 +17,7 @@
     $('.parallax').parallax();
     $('.timepicker').timepicker({
       vibrate: true,
+      showClearBtn: true,
     });
     $(".button-collapse").sideNav();
 

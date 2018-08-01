@@ -1,22 +1,4 @@
-// var lon, latPoint;
-// $('#us2').locationpicker({
-//   location: {
-//     latitude: 0,
-//     longitude: 0,
-//   },
-//   addressFormat: 'street_address',
-//   enableAutocomplete: true,
-//   enableReverseGeocode: true,
-//   inputBinding: {
-//     locationNameInput: $('#us2-address')
-//   },
-//   onchanged: function(currentLocation) {
-//     var addressComponents = $(this).locationpicker('map').location.addressComponents;
-//     lon = currentLocation.longitude;
-//     latPoint = currentLocation.latitude;
-//   }
-//
-// });
+
 
 function queryResults() {
   console.log("The fucntion ran");
@@ -39,14 +21,12 @@ function queryResults() {
           optionPreview.innerHTML += option;
         });
       });
-    } else {
-      // No user is signed in.
     }
   });
 
 };
 
-function editCardRender() {
+function editCardRender(latPoint, lon) {
   firebase.auth().onAuthStateChanged(function(user) {
     if (user) {
 
@@ -117,40 +97,61 @@ function editCardRender() {
   });
 };
 
-function updateEvent() {
+function updateEvent(latPoint, lon) {
   console.log("The fucntion ran");
   firebase.auth().onAuthStateChanged(function(user) {
     if (user) {
-      var docUpdate = document.getElementById("document");
-      var washingtonRef = db.collection("potentialEvents").doc(docUpdate.value);
-      var coords = {
-        latPoint,
-        lon
-      };
-      // Set the "capital" field of the city 'DC'
-      return washingtonRef.update({
-          name: document.getElementById("eventname").value,
-          location: document.getElementById("us2-address").value,
-          startTime: document.getElementById("starttime").value,
-          endTime: document.getElementById("endtime").value,
-          date: document.getElementById("date").value,
-          description: document.getElementById("textarea1").value,
-          imageURL: document.getElementById("imageUpdate").value,
-          // geoPosition: coords,
-        })
-        .then(function() {
-          console.log("Document successfully updated!");
-          M.toast({
-            html: 'Event Updated!',
-            classes: 'rounded teal white-text'
-          });
-          location.reload();
+      var docUpdate = document.getElementById("document");      
+      var category = document.getElementById("category");
+      var categorySelected = category.options[category.selectedIndex].value;
 
+      db.collection("potentialEventsUpdates").doc(docUpdate.value).set({
+            name: document.getElementById("eventname").value,
+            location: document.getElementById("us2-address").value,
+            startTime: document.getElementById("starttime").value,
+            category: categorySelected,
+            endTime: document.getElementById("endtime").value,
+            date: document.getElementById("date").value,
+            description: document.getElementById("textarea1").value,
+            imageURL: document.getElementById("imageUpdate").value,
+            author: user.uid,
+            id: docUpdate.value,
+            population: 0,
+        })
+        .then(function(docRef) {
+          console.log("Document written");
+          M.toast({
+            html: 'Event Update submitted for review',
+            classes: ' amber white-text'
+          });
         })
         .catch(function(error) {
-          // The document probably doesn't exist.
-          console.error("Error updating document: ", error);
+          console.error("Error adding document: ", error);
         });
+      // Set the "capital" field of the city 'DC'
+      // return washingtonRef.set({
+      //     name: document.getElementById("eventname").value,
+      //     location: document.getElementById("us2-address").value,
+      //     startTime: document.getElementById("starttime").value,
+      //     endTime: document.getElementById("endtime").value,
+      //     date: document.getElementById("date").value,
+      //     description: document.getElementById("textarea1").value,
+      //     imageURL: document.getElementById("imageUpdate").value,
+      //     // geoPosition: coords,
+      //   })
+      //   .then(function() {
+      //     console.log("Document successfully updated!");
+      //     M.toast({
+      //       html: 'Event Updated!',
+      //       classes: 'rounded teal white-text'
+      //     });
+      //     location.reload();
+      //
+      //   })
+      //   .catch(function(error) {
+      //     // The document probably doesn't exist.
+      //     console.error("Error updating document: ", error);
+      //   });
     } else {
       // No user is signed in.
     }
