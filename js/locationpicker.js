@@ -18,48 +18,7 @@ $('#us2').locationpicker({
   }
 
 });
-$num = $('.my-card').length;
-$even = $num / 2;
-$odd = ($num + 1) / 2;
 
-if ($num % 2 == 0) {
-  $('.my-card:nth-child(' + $even + ')').addClass('active');
-  $('.my-card:nth-child(' + $even + ')').prev().addClass('prev');
-  $('.my-card:nth-child(' + $even + ')').next().addClass('next');
-} else {
-  $('.my-card:nth-child(' + $odd + ')').addClass('active');
-  $('.my-card:nth-child(' + $odd + ')').prev().addClass('prev');
-  $('.my-card:nth-child(' + $odd + ')').next().addClass('next');
-}
-
-$('.my-card').click(function() {
-  $slide = $('.active').width();
-  console.log($('.active').position().left);
-
-  if ($(this).hasClass('next')) {
-    $('.card-carousel').stop(false, true).animate({left: '-=' + $slide});
-  } else if ($(this).hasClass('prev')) {
-    $('.card-carousel').stop(false, true).animate({left: '+=' + $slide});
-  }
-
-  $(this).removeClass('prev next');
-  $(this).siblings().removeClass('prev active next');
-
-  $(this).addClass('active');
-  $(this).prev().addClass('prev');
-  $(this).next().addClass('next');
-});
-
-
-// Keyboard nav
-$('html body').keydown(function(e) {
-  if (e.keyCode == 37) { // left
-    $('.active').prev().trigger('click');
-  }
-  else if (e.keyCode == 39) { // right
-    $('.active').next().trigger('click');
-  }
-});
 firebase.auth().onAuthStateChanged(function(user) {
   if (user) {
     // User is signed in.
@@ -92,12 +51,6 @@ function getPreviewEvent() {
   var imagePreview = '<img class="reduceheight" src="'+image.value+'">';
   var imageValuePreview = document.getElementById("imgValuePreview");
   imageValuePreview.innerHTML = imagePreview;
-  //
-  // //CATEGORY
-  // var category = document.getElementById("category");
-  // var categorySelected = category.options[category.selectedIndex].value;
-  // var categoryPreview = document.getElementById("categoryPreview");
-  // categoryPreview.innerHTML = categorySelected;
 
   //LOCATION
   var location = document.getElementById("us2-address");
@@ -168,8 +121,6 @@ function getFormEvent() {
           author: user.uid,
           id: eventName.value,
           population: 0,
-
-
         })
         .then(function(docRef) {
           console.log("Document written");
@@ -200,27 +151,13 @@ function getFormEvent() {
             author: user.uid,
             id: eventName.value,
             population: 0,
-
-
           })
           .then(function(docRef) {
             console.log("Document written");
-            // M.toast({
-            //   html: 'Event Added',
-            //   classes: ' green white-text'
-            // });
           })
           .catch(function(error) {
             console.error("Error adding document: ", error);
-            // M.toast({
-            //   html: 'Event Added',
-            //   classes: ' red white-text'
-            // });
           });
-      // ...
-    } else {
-      // User is signed out.
-      // ...
     }
   });
 }
@@ -242,7 +179,6 @@ console.log(user);
           author: user.uid,
           id: storyName.value,
           population: 0,
-
         })
         .then(function(docRef) {
           console.log("Document written");

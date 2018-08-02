@@ -73,13 +73,16 @@ function editCardRender(latPoint, lon) {
           var startTime = doc.data().startTime;
           var endTime = doc.data().endTime;
           var date = doc.data().date;
+          var population = doc.data().population;
           var starttimeValuePreview = document.getElementById("starttime");
           var endtimeValuePreview = document.getElementById("endtime");
           var dateValuePreview = document.getElementById("date");
+          var populationPreview = document.getElementById("population");
+
           starttimeValuePreview.value = startTime;
           endtimeValuePreview.value = endTime;
           dateValuePreview.value = date;
-
+          populationPreview.value = population;
 
           //Description
           var description = doc.data().description;
@@ -101,7 +104,7 @@ function updateEvent(latPoint, lon) {
   console.log("The fucntion ran");
   firebase.auth().onAuthStateChanged(function(user) {
     if (user) {
-      var docUpdate = document.getElementById("document");      
+      var docUpdate = document.getElementById("document");
       var category = document.getElementById("category");
       var categorySelected = category.options[category.selectedIndex].value;
 
@@ -116,7 +119,7 @@ function updateEvent(latPoint, lon) {
             imageURL: document.getElementById("imageUpdate").value,
             author: user.uid,
             id: docUpdate.value,
-            population: 0,
+            population: document.getElementById("population").value,
         })
         .then(function(docRef) {
           console.log("Document written");
@@ -129,29 +132,33 @@ function updateEvent(latPoint, lon) {
           console.error("Error adding document: ", error);
         });
       // Set the "capital" field of the city 'DC'
-      // return washingtonRef.set({
-      //     name: document.getElementById("eventname").value,
-      //     location: document.getElementById("us2-address").value,
-      //     startTime: document.getElementById("starttime").value,
-      //     endTime: document.getElementById("endtime").value,
-      //     date: document.getElementById("date").value,
-      //     description: document.getElementById("textarea1").value,
-      //     imageURL: document.getElementById("imageUpdate").value,
-      //     // geoPosition: coords,
-      //   })
-      //   .then(function() {
-      //     console.log("Document successfully updated!");
-      //     M.toast({
-      //       html: 'Event Updated!',
-      //       classes: 'rounded teal white-text'
-      //     });
-      //     location.reload();
-      //
-      //   })
-      //   .catch(function(error) {
-      //     // The document probably doesn't exist.
-      //     console.error("Error updating document: ", error);
-      //   });
+      return db.collection('potentialEvents').doc(docUpdate.value).set({
+        name: document.getElementById("eventname").value,
+        location: document.getElementById("us2-address").value,
+        startTime: document.getElementById("starttime").value,
+        category: categorySelected,
+        endTime: document.getElementById("endtime").value,
+        date: document.getElementById("date").value,
+        description: document.getElementById("textarea1").value,
+        imageURL: document.getElementById("imageUpdate").value,
+        author: user.uid,
+        id: docUpdate.value,
+        population: document.getElementById("population").value,
+          // geoPosition: coords,
+        })
+        .then(function() {
+          console.log("Document successfully updated!");
+          M.toast({
+            html: 'Event Updated!',
+            classes: 'rounded teal white-text'
+          });
+          location.reload();
+
+        })
+        .catch(function(error) {
+          // The document probably doesn't exist.
+          console.error("Error updating document: ", error);
+        });
     } else {
       // No user is signed in.
     }
