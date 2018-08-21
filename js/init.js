@@ -2,6 +2,7 @@
   $(function() {
     $('.tabs').tabs();
     $('.scrollspy').scrollSpy();
+    M.updateTextFields();
     $('.carousel.carousel-slider').carousel({
        fullWidth: true,
        indicators: true,

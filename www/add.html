@@ -84,14 +84,22 @@
 
       <div class="row">
         <div class="col s12 m6">
-          <div class="card white" id="rcorners1">
+          <div class="card white z-depth-4" id="rcorners1">
             <div class="card-content black-text">
               <span class="card-title center-align"><b>Event Info</b></span>
               <div class="row center-align">
-                <div class="input-field col s12">
+                <div class="input-field col s9">
                   <input id="eventname" type="text">
                   <label for="eventname" class="theme"> Event Name </label>
                 </div>
+                <form action="#">
+                <p class="col s3">
+                  <label>
+                    <input type="checkbox" id="privateCheck"/>
+                    <span>Private</span>
+                  </label>
+                </p>
+              </form>
                 <div class="col s12">
                   <div class="row">
                     <div class="input-field col s12">
@@ -110,12 +118,22 @@
                     </div>
                   </div>
                 </div>
+                <div class="row">
+
+                  <div class="input-field col m8 s6">
+                    <input id="privateEmail" type="email">
+                    <label for="email" class="email">User email</label>
+                  </div>
+                  <div class="input-field col m4 s6">
+                    <a class="waves-effect waves-light btn" onclick="pushToArray()">Add User</a>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
         <div class="col s12 m6">
-          <div class="card white">
+          <div class="card white z-depth-4">
             <div class="card-content black-text">
               <span class="card-title center-align"><b>Location</b></span>
               <div class="row">
@@ -150,7 +168,7 @@
       </div>
       <div class="row">
         <div class="col s12 m6">
-          <div class="card white" id="rcorners2">
+          <div class="card white z-depth-4" id="rcorners2">
             <div class="card-content black-text">
               <div class="row center-align">
                 <span class="card-title center-align"><b>Description</b></span><br>
@@ -183,7 +201,7 @@
           </div>
         </div>
         <div class="col s12 m6">
-          <div class="card white" id="">
+          <div class="card white z-depth-4" id="">
             <div class="card-content black-text">
               <div class="row center-align">
                 <span class="card-title center-align"><b>Last Step</b></span><br>
@@ -286,30 +304,7 @@
 
   </div>
   </header>
-  <script>
-    firebase.auth().onAuthStateChanged(function(user) {
-      if (user) {
-        // User is signed in.
-        var displayName = user.displayName;
-        var uid = user.uid;
-        console.log(displayName);
-        console.log(uid);
-        var welcome = document.getElementById("welcomeMessage");
-        var welcomeMessage = '<span class="white-text">Welcome ' + displayName + '</span><i class="material-icons right white-text">arrow_drop_down</i></a>';
-        welcome.innerHTML = welcomeMessage;
-      }
-    });
 
-    function signOut() {
-      firebase.auth().signOut().then(function() {
-        console.log('Signed Out');
-        window.location.href = "../index.html";
-
-      }, function(error) {
-        window.location.href = "../index.html";
-      });
-    }
-  </script>
   <script type="text/javascript" src="../js/materialize.min.js"></script>
   <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCf69RlrrN0ChatQlN28uGPRFyUP1MrV88&libraries=places"></script>
   <script src="../js/autocomplete.js"></script>
